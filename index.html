@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="form-builder">
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="jquery.js"> </script>
+    <script src="jquery-ui.js"></script>
+    <script src="angular.js"></script>
+    <script src="app.js"></script>
+    <link href="jquery-ui.css">
+    <link href="jquery-ui.structure.css">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Custom property form builder</title>
+</head>
+<body ng-controller="IndexController">
+
+<form method="#" action="#">
+    <div class="custom-form-builder">
+        <div class="sidebar">
+            <h3 class="title"> Add Custom Field </h3>
+            <div class="info"> Drag and Drop any type of field into the Drag and Drop Zone </div>
+            <div>
+                  <ul class="drop">
+
+                  </ul>
+            </div>
+
+
+
+
+
+
+        </div>
+
+        <div class="left-region">
+            <div class="navigation">
+                <div class="pull-left" >
+                    <i class="fa fa-arrow-circle-o-left"></i>
+                    <a href="#"> Back </a>
+                </div>
+
+                <div class="pull-right">
+                    <a href="#" class=""> Cancel </a>
+                    <input type="submit" value="Save" name="save">
+                </div>
+            </div>
+            <div class="drop-zone">
+                <div>
+                    <ul id="sortable">
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+</body>
+</html>

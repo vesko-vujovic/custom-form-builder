@@ -1,0 +1,70 @@
+.custom-form-builder .navigation {
+  border-bottom: 2px solid #dadada;
+  height: 56px;
+  margin-left: -6px; }
+.custom-form-builder .sidebar {
+  float: right;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 400px;
+  background: #fff;
+  border-right: 2px solid #dadada;
+  border-left: 2px solid #dadada;
+  border-bottom: 2px solid #dadada;
+  padding: 10px;
+  height: 600px; }
+.custom-form-builder .left-region {
+  margin-top: 0;
+  width: 79%;
+  min-height: 500px; }
+.custom-form-builder .pull-left {
+  margin-left: 20px;
+  margin-top: 20px;
+  float: left;
+  font-size: 20px;
+  color: black; }
+  .custom-form-builder .pull-left a {
+    text-decoration: none;
+    color: black; }
+    .custom-form-builder .pull-left a:hover {
+      text-decoration: underline; }
+.custom-form-builder .pull-right {
+  float: right;
+  margin-top: 20px;
+  margin-right: 2%;
+  position: relative; }
+  .custom-form-builder .pull-right a {
+    padding-right: 15px;
+    text-decoration: none;
+    color: black; }
+.custom-form-builder .drop-zone div {
+  margin-left: 4%;
+  margin-right: auto;
+  margin-top: 4%;
+  width: 90%;
+  min-height: 250px; }
+  .custom-form-builder .drop-zone div h2 {
+    padding-left: 33%;
+    padding-top: 8%; }
+  .custom-form-builder .drop-zone div #sortable {
+    border: 1px dashed;
+    width: 100%;
+    min-height: 200px;
+    padding-left: 0;
+    list-style-type: none; }
+
+.drop li {
+  list-style-type: none;
+  display: inline-block;
+  width: 80px;
+  height: 50px;
+  padding-right: 20px;
+  background-color: #666699;
+  border-right-color: white;
+  border-style: 1px white; }
+
+/*# sourceMappingURL=style.css.map */
