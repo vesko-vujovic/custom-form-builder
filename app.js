@@ -37,10 +37,10 @@ customForm.controller('IndexController',  ['$scope', function($scope){
     $scope.startWidgets = function(){
 
         $("#sortable").sortable({
-            revert: true
-            /*update: function(event, ui){
+            revert: true,
+            update: function(event, ui){
                 $(ui.item).replaceWith("<li><input type="+'text'+" ></li>");
-            }*/
+            }
         });
 
         $scope.listDraggableItems();
