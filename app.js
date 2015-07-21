@@ -4,68 +4,95 @@
 
 var customForm = angular.module('form-builder', []);
 
+
+// Loads pallete of available fields, and html templates for that fields
+customForm.service('getDataForCustomForm', function($http, $q){
+
+    //Loading json file
+    this.getData     = function(){
+        var deferred = $q.defer();
+
+        $http.get('custom-form.json')
+            .success(function(data){
+                deferred.resolve(data);
+            })
+            .error(function(err, status){
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
+
+    }
+});
+
+
 // Define controller
-customForm.controller('IndexController',  ['$scope', function($scope){
+customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', function($scope, getDataForCustomForm){
 
-    // Pallete of field types that can be added to the form
-    $scope.pallete = [
-        {
-            id: 0,
-            type: "input"
+    $scope.pallete      = "";
+    $scope.templates    = "";
 
-        },
-        {
-            id: 1,
-            type: "text area"
-        },
-        {
-            id: 2,
-            type: "checkbox"
-        },
-        {
-            id: 3,
-            type: "dropdown"
-        },
-        {
-            id:4,
-            type: "datepicker"
-        }
-    ];
+    $scope.palleteAndTemplatesData    = getDataForCustomForm.getData().then(function(data){
+        $scope.pallete    = data.pallete;
+        $scope.templates  = data.templates;
+
+    });
 
 
 
-    $scope.startWidgets = function(){
-
-        $("#sortable").sortable({
-            revert: true,
-            update: function(event, ui){
-                $(ui.item).replaceWith("<li><input type="+'text'+" ></li>");
-            }
-        });
-
-        $scope.listDraggableItems();
-
-        $(".drop li").draggable({
-            connectToSortable: "#sortable",
-            helper: "clone",
-            revert: "invalid",
-            start: function( event, ui ) {
-
-            }
-        });
-
-    };
-    // List  all item from field pallete
-    $scope.listDraggableItems = function(){
-        for(var i = 0; i < $scope.pallete.length; i++){
-            $(".drop").append("<li id="+ 'draggable' +">" + $scope.pallete[i].type + "</li>");
-        };
+    // Update objects, for elemnts that are droped on the left
+    $scope.updateObjects   = function(){
 
     }
 
 
 
-    // Start the draggable and sortable
+    $scope.startWidgets    = function(){
+
+        // Initialize sortable
+        $("#sortable").sortable({
+            revert: true,
+            update: function(event, ui){
+
+            }
+        });
+
+        //List dragable fields on the left
+        $scope.listDraggableFields();
+
+    };
+
+    $scope.initializeDrag   = function(){
+        $(".drop li").draggable({
+            connectToSortable: "#sortable",
+            helper: "clone",
+            revert: "invalid",
+            start: function( event, ui ) {
+               console.log(ui.helper.text());
+            }
+        });
+    }
+
+    // Watch when $scope.pallete is loaded then render left side fields
+    $scope.listDraggableFields = function(){
+
+        $scope.$watchCollection("pallete", function (newValue, oldValue) {
+
+            if(newValue.length !== 0){
+                for(var i = 0; i < $scope.pallete.length; i++){
+                    $(".drop").append("<li>" + $scope.pallete[i].type + "</li>");
+                };
+            }
+
+            // After changing the DOM initialize draggable UI  for that elements
+            $scope.initializeDrag();
+        });
+
+
+
+    };
+
+    // Start the draggable and sortable widgets
     $scope.startWidgets();
 
 

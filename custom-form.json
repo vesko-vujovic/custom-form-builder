@@ -1,0 +1,55 @@
+{
+  "pallete": [
+    {
+      "id": 0,
+      "type": "input"
+
+    },
+    {
+      "id": 1,
+      "type": "textarea"
+    },
+    {
+      "id": 2,
+      "type": "checkbox"
+    },
+    {
+      "id": 3,
+      "type": "dropdown"
+    },
+    {
+      "id":4,
+      "type": "datepicker"
+    }
+  ],
+
+  "templates": [
+    {
+      "type": "input",
+      "label": "<label> Untitled </label>",
+      "html": "<input type='text'>"
+    },
+    {
+      "type": "textarea",
+      "label": "<label> Untitled </label>",
+      "html": "<textarea> </textarea>"
+    },
+    {
+      "type": "checkbox",
+      "label": "<label> Untitled </label>",
+      "html": "<input type='checkbox'>"
+
+    },
+    {
+      "type": "dropdown",
+      "label": "<label> Untitled </label>",
+      "html": "<select> </select>"
+    },
+    {
+      "type": "datepicker",
+      "label": "<label> Untitled </label>",
+      "html": "<input type='text' id='datepicker'>"
+    }
+  ]
+
+}
