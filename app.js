@@ -53,7 +53,8 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
         $("#sortable").sortable({
             revert: true,
             update: function(event, ui){
-
+               console.log(ui.item.index());
+               $scope.relaceDraggedElement(ui);
             }
         });
 
@@ -63,20 +64,22 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     };
 
     // Initialize draggable widget - this function will be called from $scope.listDraggableFields();
-    $scope.initializeDrag   = function(){
+    $scope.initializeDrag   = function() {
         $(".drop li").draggable({
             connectToSortable: "#sortable",
             helper: "clone",
             revert: "invalid",
             start: function( event, ui ) {
-                $scope.relaceDraggedItem(ui);
+                var type = ui.helper.text();
+
             }
         });
     }
 
-    $scope.relaceDraggedItem    = function(item){
-          
-    }
+    $scope.relaceDraggedElement   = function(element){
+           var i;
+           $(element.item).replaceWith('<li>' + $scope.templates[0].label   + '<div>' + $scope.templates[0].html + '</div>' + '</li> ');
+    };
 
 
 
