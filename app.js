@@ -62,16 +62,25 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
     };
 
+    // Initialize draggable widget - this function will be called from $scope.listDraggableFields();
     $scope.initializeDrag   = function(){
         $(".drop li").draggable({
             connectToSortable: "#sortable",
             helper: "clone",
             revert: "invalid",
             start: function( event, ui ) {
-               console.log(ui.helper.text());
+                $scope.relaceDraggedItem(ui);
             }
         });
     }
+
+    $scope.relaceDraggedItem    = function(item){
+          
+    }
+
+
+
+
 
     // Watch when $scope.pallete is loaded then render left side fields
     $scope.listDraggableFields = function(){
