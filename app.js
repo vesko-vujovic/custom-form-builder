@@ -46,9 +46,8 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     }
 
 
-
+    // Initialize widgets
     $scope.startWidgets    = function(){
-
         // Initialize sortable
         $("#sortable").sortable({
             revert: true,
@@ -80,7 +79,6 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
            var i;
            $(element.item).replaceWith('<li>' + $scope.templates[0].label   + '<div>' + $scope.templates[0].html + '</div>' + '</li> ');
     };
-
 
 
 
