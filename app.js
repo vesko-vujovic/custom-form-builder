@@ -9,7 +9,8 @@ var customForm = angular.module('form-builder', []);
 customForm.service('getDataForCustomForm', function($http, $q){
 
     //Loading json file
-    this.getData     = function(){
+    this.getData     = function() {
+
         var deferred = $q.defer();
 
         $http.get('custom-form.json')
@@ -22,42 +23,60 @@ customForm.service('getDataForCustomForm', function($http, $q){
 
         return deferred.promise;
 
-    }
+    };
+
+    // Laoading initial data from database for CI Type
+   this.getCiTypeData =  function() {
+
+        var deferred = $q.defer();
+
+        $http.get('custom-form-dummy.json')
+            .success(function(data){
+                deferred.resolve(data);
+            })
+            .error(function(err, status){
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
+    };
+
+
 });
 
 
 // Define controller
 customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', function($scope, getDataForCustomForm){
 
-    $scope.pallete      = "";
-    $scope.templates    = "";
-
-    $scope.palleteAndTemplatesData    = getDataForCustomForm.getData().then(function(data){
-        $scope.pallete    = data.pallete;
-        $scope.templates  = data.templates;
-
+    // @param initialCiData - json object
+    $scope.initialCi = [];
+    $scope.initialCiData    = getDataForCustomForm.getCiTypeData().then(function(data){
+        $scope.initialCi    = data.form;
     });
 
 
 
-    // Update objects, for elemnts that are droped on the left
-    $scope.updateObjects   = function(){
+    // Variable initialization
+    $scope.pallete      = "";
+    $scope.templates    = "";
+    $scope.palleteAndTemplatesData    = getDataForCustomForm.getData().then(function(data){
+        $scope.pallete    = data.pallete;
+        $scope.templates  = data.templates;
+    });
 
-    }
 
-
-    // Initialize widgets
+    // Initialize Jquery UI widgets on the page
     $scope.startWidgets    = function(){
-        // Initialize sortable
         $("#sortable").sortable({
             revert: true,
             update: function(event, ui){
-               console.log(ui.item.index());
+               // Replace dragged element with adequate template
+                console.log(ui.item);
                $scope.relaceDraggedElement(ui);
             }
         });
 
-        //List dragable fields on the left
+        // List draggable fields on the right
         $scope.listDraggableFields();
 
     };
@@ -69,21 +88,30 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
             helper: "clone",
             revert: "invalid",
             start: function( event, ui ) {
-                var type = ui.helper.text();
-
+                console.log(ui.helper.text());
             }
         });
     }
 
-    $scope.relaceDraggedElement   = function(element){
-           var i;
-           $(element.item).replaceWith('<li>' + $scope.templates[0].label   + '<div>' + $scope.templates[0].html + '</div>' + '</li> ');
+    // Replace dragged element on the right with adeuquate element
+    $scope.relaceDraggedElement   = function(draggedElement){
+
+        // @param typeOfTheFiled - string
+        var typeOfTheField   = draggedElement.item.text();
+        var element   = draggedElement.item;
+
+        switch (typeOfTheField){
+            case "input":
+                element.append();
+                break;
+            case "input-number":
+
+
+        }
     };
 
 
-
-
-    // Watch when $scope.pallete is loaded then render left side fields
+    // Watch when $scope.pallete is loaded then render left side field types
     $scope.listDraggableFields = function(){
 
         $scope.$watchCollection("pallete", function (newValue, oldValue) {

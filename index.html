@@ -47,6 +47,10 @@
             <div class="drop-zone">
                 <div>
                     <ul id="sortable" class="ui-sortable ui-dropable">
+                        <li ng-repeat="x in initialCi" ng-if=" x.editable == true">
+                             <p> {{x.key}} </p>
+                             <input ng-if="x.type == input" width="{{ x.width }}">
+                        </li>
 
                     </ul>
                 </div>

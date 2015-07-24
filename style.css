@@ -51,7 +51,7 @@
     padding-left: 33%;
     padding-top: 8%; }
   .custom-form-builder .drop-zone div #sortable {
-    border: 1px dashed;
+    border: 1px dashed grey;
     width: 100%;
     min-height: 200px;
     padding-left: 0;
@@ -64,7 +64,6 @@
   height: 50px;
   padding-right: 20px;
   background-color: #666699;
-  border-right-color: white;
-  border-style: 1px white; }
+  border-right-color: white; }
 
 /*# sourceMappingURL=style.css.map */

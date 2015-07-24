@@ -1,20 +1,83 @@
 {
+
   "form": [
     {
-      "id":  0,
-      "key": "untitled_1234",
-      "custom_field": "input",
+      "id": 12435,
+      "title": "Parent 1",
+      "editable": false,
+      "info":   "Here goes properties",
+      "ci_type_id": 1234
+
+    },
+    {
+      "id": 124356,
+      "title": "Parent 2",
+      "editable": false,
+      "info":   "Here goes properties",
+      "ci_type_id": 1234
+
+    },
+    {
+      "id": 0,
+      "new":  0,
+      "key":  "Untitled",
+      "custom_field_type": "input",
       "index": "0",
       "required": true,
       "isCustomizable": 0,
-      "dropdown_choices": [],
-      "status": -1
+      "width": "150px",
+      "heigth": "",
+      "dropdown_choices": [{
+        "state_id":   2,
+        "name":       "first choice",
+        "deleted":    "false",
+        "is_default": "true"
+      }],
+      "ci_type_id": 12345,
+      "status": -1,
+      "editable": true
+    },
+    {
+      "id": 0,
+      "new":  0,
+      "ref":  "Untitled",
+      "key":  "Untitled",
+      "custom_field_type": "input",
+      "index": "0",
+      "required": true,
+      "isCustomizable": 0,
+      "width": "",
+      "heigth": "",
+      "dropdown_choices": [{
+        "state_id":   2,
+        "name":       "first choice",
+        "deleted":    "false",
+        "is_default": "true"
+      }],
+      "ci_type_id": 12345,
+      "status": -1,
+      "editable": true
+    },
+    {
+      "id": 0,
+      "new":  0,
+      "key":  "Untitled",
+      "custom_field_type": "input",
+      "index": "0",
+      "required": true,
+      "isCustomizable": 0,
+      "width": "",
+      "heigth": "",
+      "dropdown_choices": [{
+        "state_id":   2,
+        "name":       "first choice",
+        "deleted":    "false",
+        "is_default": "true"
+      }],
+      "ci_type_id": 12345,
+      "status": -1,
+      "editable": true
     }
   ]
-
-
-
-
-
 
 }
