@@ -51,6 +51,7 @@
     padding-left: 33%;
     padding-top: 8%; }
   .custom-form-builder .drop-zone div #sortable {
+
     border: 1px dashed grey;
     width: 100%;
     min-height: 200px;
@@ -58,12 +59,23 @@
     list-style-type: none; }
 
 .drop li {
+
   list-style-type: none;
-  display: inline-block;
+  display: inline-block !important;
   width: 80px;
   height: 50px;
   padding-right: 20px;
   background-color: #666699;
   border-right-color: white; }
+
+.custom-form-builder .drop-zone li div {
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  width: auto;
+
+}
+
+
 
 /*# sourceMappingURL=style.css.map */

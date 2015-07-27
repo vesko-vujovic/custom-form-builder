@@ -54,6 +54,16 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
         $scope.initialCi    = data.form;
     });
 
+    // Temporary data storage for objects
+    $scope.tempStorageForObjects = [];
+    $scope.tempStorageForObjects  = $scope.initialCi;
+
+    // Default sizes for elements
+    $scope.defaultsForFields = {
+        "width":    "200px",
+        "heigth":   "50px",
+        "key":      "Untitled"
+    }
 
 
     // Variable initialization
@@ -70,8 +80,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
         $("#sortable").sortable({
             revert: true,
             update: function(event, ui){
-               // Replace dragged element with adequate template
-                console.log(ui.item);
+               var index = ui.item.index();
                $scope.relaceDraggedElement(ui);
             }
         });
@@ -88,7 +97,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
             helper: "clone",
             revert: "invalid",
             start: function( event, ui ) {
-                console.log(ui.helper.text());
+
             }
         });
     }
@@ -96,18 +105,25 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     // Replace dragged element on the right with adeuquate element
     $scope.relaceDraggedElement   = function(draggedElement){
 
-        // @param typeOfTheFiled - string
-        var typeOfTheField   = draggedElement.item.text();
-        var element   = draggedElement.item;
+            var typeOfField           = draggedElement.item.text();
+            var currentElement        = draggedElement.item;
+            var indexOfDraggedElement = draggedElement.item.index();
 
-        switch (typeOfTheField){
+        // Make object for this element and push it on array
+
+        switch (typeOfField){
             case "input":
-                element.append();
-                break;
-            case "input-number":
+                // Create object for dragged element
+                var o = $scope.createObjectForElement(indexOfDraggedElement);
+                console.log(o);
+                $(currentElement).replaceWith("<li data-ref="+ o.ref + "> <input type='text'>  </li>")
+
+
 
 
         }
+
+
     };
 
 
@@ -117,7 +133,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
         $scope.$watchCollection("pallete", function (newValue, oldValue) {
 
             if(newValue.length !== 0){
-                for(var i = 0; i < $scope.pallete.length; i++){
+                for(var i = 0; i < $scope.pallete.length; i++) {
                     $(".drop").append("<li>" + $scope.pallete[i].type + "</li>");
                 };
             }
@@ -129,6 +145,25 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
 
     };
+
+    // Create object for new dragged element
+    $scope.createObjectForElement = function(index){
+
+          var timestamp =  Date.now();
+
+          var obj = {
+              "id": 0,
+              "new": 0,
+              "ref": timestamp,
+              "key": $scope.defaultsForFields.key,
+              "index": index
+          }
+
+
+          return obj;
+    };
+
+
 
     // Start the draggable and sortable widgets
     $scope.startWidgets();

@@ -20,12 +20,13 @@
     {
       "id": 0,
       "new":  0,
+      "ref":  1437985494559,
       "key":  "Untitled",
-      "custom_field_type": "input",
+      "field_type": "input",
       "index": "0",
       "required": true,
       "isCustomizable": 0,
-      "width": "150px",
+      "width": "200px",
       "heigth": "",
       "dropdown_choices": [{
         "state_id":   2,
@@ -40,9 +41,9 @@
     {
       "id": 0,
       "new":  0,
-      "ref":  "Untitled",
+      "ref":  1437985494559,
       "key":  "Untitled",
-      "custom_field_type": "input",
+      "field_type": "input",
       "index": "0",
       "required": true,
       "isCustomizable": 0,
@@ -61,23 +62,72 @@
     {
       "id": 0,
       "new":  0,
+      "ref":  1437985494559,
       "key":  "Untitled",
-      "custom_field_type": "input",
+      "field_type": "textarea",
       "index": "0",
       "required": true,
       "isCustomizable": 0,
-      "width": "",
-      "heigth": "",
+      "width": "200px",
+      "heigth": "250px",
       "dropdown_choices": [{
         "state_id":   2,
         "name":       "first choice",
         "deleted":    "false",
         "is_default": "true"
       }],
+      "ci_type_id": 12345,
+      "status": -1,
+      "editable": true
+    },
+    {
+      "id": 0,
+      "new":  0,
+      "ref":  1437985494579,
+      "key":  "Untitled",
+      "field_type": "input-decimal",
+      "index": "0",
+      "required": true,
+      "isCustomizable": 0,
+      "width": "",
+      "heigth": "",
+      "dropdown_choices": [],
+      "ci_type_id": 12345,
+      "status": -1,
+      "editable": true
+    },
+    {
+      "id": 0,
+      "new":  0,
+      "ref":  1437985494559,
+      "key":  "Untitled",
+      "field_type": "dropdown",
+      "index": "0",
+      "required": true,
+      "isCustomizable": 0,
+      "width": "",
+      "heigth": "",
+      "dropdown_choices": [{
+        "state_id":   1,
+        "name":       "first choice",
+        "deleted":    "false",
+        "is_default": true
+      },
+      {
+        "state_id":   2,
+        "name":       "second choice",
+        "deleted":    "false",
+        "is_default": false
+      }
+      ],
       "ci_type_id": 12345,
       "status": -1,
       "editable": true
     }
+
+
+
+
   ]
 
 }

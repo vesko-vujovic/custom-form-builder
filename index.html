@@ -39,6 +39,15 @@
                     <a href="#"> Back </a>
                 </div>
 
+                <div class="parent-info">
+                    <div ng-repeat="x in initialCi" ng-if="x.editable == false">
+                        <p> {{ x.title }} </p>
+                        <div> {{ x.info }} </div>
+
+                    </div>
+
+                </div>
+
                 <div class="pull-right">
                     <a href="#" class=""> Cancel </a>
                     <input type="submit" value="Save" name="save">
@@ -46,12 +55,33 @@
             </div>
             <div class="drop-zone">
                 <div>
-                    <ul id="sortable" class="ui-sortable ui-dropable">
-                        <li ng-repeat="x in initialCi" ng-if=" x.editable == true">
-                             <p> {{x.key}} </p>
-                             <input ng-if="x.type == input" width="{{ x.width }}">
-                        </li>
+                    <ul id="sortable" class="ui-sortable ui-dropable" >
+                        <li ng-repeat="x in initialCi"  ng-if="x.editable == true " data-ref="{{x.ref}}" >
+                            <div ng-if=" x.field_type == 'input' ">
+                                <label> {{ x.key }} </label>
+                                <input disabled ="true "type="text" width="{{x.width}}" >
+                            </div>
+                            <div ng-if=" x.field_type == 'textarea' ">
+                                <label>{{ x.key }}</label>
+                                <textarea disabled ="true "  width="{{x.width}}" height="{{x.heigth}}"> </textarea>
+                            </div>
+                            <div ng-if=" x.field_type == 'input-decimal' ">
+                                <label>{{ x.key }}</label>
+                                <input disabled ="true " type="number" step="any">
+                            </div>
+                            <div ng-if=" x.field_type == 'checkbox' ">
+                                <label>{{ x.key }}</label>
+                                <input disabled ="true " type="checkbox">
+                            </div>
+                            <div ng-if=" x.field_type == 'dropdown' ">
+                                <label>{{ x.key }}</label>
+                                <select  disabled="true">
+                                    <option ng-if=" y.is_default == true " ng-repeat="y in x.dropdown_choices" value="{{y.state_id}}"> {{ y.name }}</option>
+                                    <option ng-if=" y.is_default == false "  ng-repeat="y in x.dropdown_choices" value="{{y.state_id}}"> {{ y.name }}</option>
+                                </select>
+                            </div>
 
+                        </li>
                     </ul>
                 </div>
             </div>
