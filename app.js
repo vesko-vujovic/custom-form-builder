@@ -56,6 +56,23 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
     // Temporary data storage for objects
     $scope.tempStorageForObjects = [];
+
+    // Watch when async call is finished, then asign that data to tempStorageForObjects
+    $scope.$watchCollection("initialCi", function(newValue, oldValue){
+
+        if($scope.initialCi.length !== 0 ){
+            $scope.tempStorageForObjects = $scope.initialCi;
+        }
+    });
+
+
+
+
+
+
+
+
+
     $scope.tempStorageForObjects  = $scope.initialCi;
 
     // Default sizes for elements
@@ -114,10 +131,8 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
         switch (typeOfField){
             case "input":
                 // Create object for dragged element
-                var o = $scope.createObjectForElement(indexOfDraggedElement);
-                console.log(o);
+                var o = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
                 $(currentElement).replaceWith("<li data-ref="+ o.ref + "> <input type='text'>  </li>")
-
 
 
 
@@ -147,18 +162,29 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     };
 
     // Create object for new dragged element
-    $scope.createObjectForElement = function(index){
+    $scope.createObjectForElement = function(index, typeOfField){
 
-          var timestamp =  Date.now();
+          var timestamp       =  Date.now();
+          var dropdownOptions =  "";
+          console.log(typeOfField);
+          // If typeOfField is dropdown, make initial data for that element
+          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false }]: dropdownOptions = [];
 
           var obj = {
               "id": 0,
               "new": 0,
               "ref": timestamp,
               "key": $scope.defaultsForFields.key,
-              "index": index
+              "index": index,
+              "required": false,
+              "isCustomizable": 1,
+              "width": "",
+              "height": "",
+              "dropdown_choices": dropdownOptions,
+              "cu_type_id": 1234,
+              "status": 0,
+              "editable": true
           }
-
 
           return obj;
     };
