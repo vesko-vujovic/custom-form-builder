@@ -45,6 +45,30 @@ customForm.service('getDataForCustomForm', function($http, $q){
 });
 
 
+
+// Directive that will load dynamic templates based on field type
+customForm.directive('formfield', function(){
+
+    return {
+        scope: {
+            data: '='
+        },
+        restrict: 'E',
+        link: function(scope, element, attribute){
+
+        },
+
+        replace: true,
+
+        template: function(data){
+           return '<h1> Ovo radi </h1>'
+        }
+    };
+
+});
+
+
+
 // Define controller
 customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', function($scope, getDataForCustomForm){
 
@@ -202,12 +226,11 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
           return obj;
     };
 
-
-
     // Start the draggable and sortable widgets
     $scope.startWidgets();
-    
 }]);
+
+
 
 
 
