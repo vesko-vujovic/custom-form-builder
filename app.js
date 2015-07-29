@@ -65,16 +65,6 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
         }
     });
 
-
-
-
-
-
-
-
-
-    $scope.tempStorageForObjects  = $scope.initialCi;
-
     // Default sizes for elements
     $scope.defaultsForFields = {
         "width":    "200px",
@@ -109,10 +99,10 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
     // Initialize draggable widget - this function will be called from $scope.listDraggableFields();
     $scope.initializeDrag   = function() {
-        $(".drop li").draggable({
-            connectToSortable: "#sortable",
-            helper: "clone",
-            revert: "invalid",
+        $('.drop li').draggable({
+            connectToSortable: '#sortable',
+            helper: 'clone',
+            revert: 'invalid',
             start: function( event, ui ) {
 
             }
@@ -125,15 +115,38 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
             var typeOfField           = draggedElement.item.text();
             var currentElement        = draggedElement.item;
             var indexOfDraggedElement = draggedElement.item.index();
-
-        // Make object for this element and push it on array
-
+            console.log(indexOfDraggedElement);
+        //
         switch (typeOfField){
-            case "input":
-                // Create object for dragged element
-                var o = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
-                $(currentElement).replaceWith("<li data-ref="+ o.ref + "> <input type='text'>  </li>")
-
+            case 'input':
+                // @param {object} - Create object for this dragged field
+                var obj = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
+                $(currentElement).replaceWith(
+                    '<li data-type="' + obj.field_type + '" data-ref="' + obj.ref + '">' +
+                    '<label>' + obj.key + '</label><input type="text" disabled=true>' +
+                    '</li>'
+                );
+                $scope.tempStorageForObjects.push(obj);
+                console.log(obj);
+                break;
+            case 'input-number':
+                var obj = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
+                $(currentElement).replaceWith(
+                    '<li data-type="' + obj.field_type + '" data-ref="' + obj.ref + '">' +
+                    '<label>' + obj.key + '</label><input type="number" disabled=true>' +
+                    '</li>'
+                );
+                $scope.tempStorageForObjects.push(obj);
+                break;
+            case 'input-decimal':
+                var obj = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
+                $(currentElement).replaceWith(
+                    '<li data-type="' + obj.field_type + '" data-ref="' + obj.ref + '">' +
+                    '<label>' + obj.key + '</label><input type="number" set="any" disabled=true>' +
+                    '</li>'
+                );
+                $scope.tempStorageForObjects.push(obj);
+                break;
 
 
         }
@@ -145,15 +158,14 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     // Watch when $scope.pallete is loaded then render left side field types
     $scope.listDraggableFields = function(){
 
-        $scope.$watchCollection("pallete", function (newValue, oldValue) {
+        $scope.$watchCollection('pallete', function (newValue, oldValue) {
 
             if(newValue.length !== 0){
                 for(var i = 0; i < $scope.pallete.length; i++) {
-                    $(".drop").append("<li>" + $scope.pallete[i].type + "</li>");
+                    $(".drop").append('<li>' + $scope.pallete[i].type + '</li>');
                 };
             }
-
-            // After changing the DOM initialize draggable UI  for that elements
+            // After changing the DOM initialize draggable JqueryUI
             $scope.initializeDrag();
         });
 
@@ -166,22 +178,23 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
           var timestamp       =  Date.now();
           var dropdownOptions =  "";
-          console.log(typeOfField);
+
           // If typeOfField is dropdown, make initial data for that element
-          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false }]: dropdownOptions = [];
+          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false }] : dropdownOptions = [];
 
           var obj = {
               "id": 0,
               "new": 0,
               "ref": timestamp,
               "key": $scope.defaultsForFields.key,
+              "field_type": typeOfField,
               "index": index,
-              "required": false,
+              "required": true,
               "isCustomizable": 1,
               "width": "",
               "height": "",
               "dropdown_choices": dropdownOptions,
-              "cu_type_id": 1234,
+              "ci_type_id": 1234,
               "status": 0,
               "editable": true
           }
@@ -193,8 +206,12 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
     // Start the draggable and sortable widgets
     $scope.startWidgets();
-
-
-
-
+    
 }]);
+
+
+
+
+
+
+
