@@ -47,30 +47,31 @@ customForm.service('getDataForCustomForm', function($http, $q){
 
 
 // Directive that will load dynamic templates based on field type
-customForm.directive('formfield', function(){
+customForm.directive('formfield', ['$compile','$templateCache', function($compile, $templateCache){
 
     return {
         scope: {
-            data: '='
+            fieldData: '='
         },
-        restrict: 'E',
+        restrict: 'EA',
+        template: $templateCache.get('input.html'),
         link: function(scope, element, attribute){
 
-        },
 
-        replace: true,
 
-        template: function(data){
-           return '<h1> Ovo radi </h1>'
+           /* var test = '<h1> radi {{name}} </h1>';
+            var test1 = $compile(test)(scope.data);
+
+             element.html(test1); */
         }
     };
 
-});
+}]);
 
 
 
 // Define controller
-customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', function($scope, getDataForCustomForm){
+customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$templateCache', function($scope, getDataForCustomForm, $templateCache){
 
     // @param initialCiData - json object
     $scope.initialCi = [];
@@ -185,7 +186,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
         $scope.$watchCollection('pallete', function (newValue, oldValue) {
 
             if(newValue.length !== 0){
-                for(var i = 0; i < $scope.pallete.length; i++) {
+                for( var i = 0; i < $scope.pallete.length; i++) {
                     $(".drop").append('<li>' + $scope.pallete[i].type + '</li>');
                 };
             }
@@ -229,6 +230,17 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     // Start the draggable and sortable widgets
     $scope.startWidgets();
 }]);
+
+//Template cache
+customForm.run(function($templateCache){
+    $templateCache.put('input.html', '<li> <label> Untitled <\/label> <div> <input type=\"text\" disabled=\"true\" > <\/div> <\/li>');
+});
+
+
+
+
+
+
 
 
 

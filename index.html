@@ -12,7 +12,68 @@
 
     <title>Custom property form builder</title>
 </head>
+
+<script type="text/ng-template" id="input.html">
+    <li>
+        <label> Untitled </label>
+        <div>
+            <input type="text" disabled="true" >
+        </div>
+    </li>
+</script>
+
+<script type="text/ng-template" id="input-number.html">
+    <li>
+        <label> Untitled </label>
+        <div>
+            <input type="number" disabled="true" >
+        </div>
+    </li>
+</script>
+
+<script type="text/ng-template" id="input-decimal.html">
+
+        <label> Untitled  </label>
+        <div>
+            <input type="Number" disabled="true" step="any">
+        </div>
+
+</script>
+
+<script type="text/ng-template" id="textarea.html">
+
+        <label> Untitled  </label>
+        <div>
+           <textarea disabled="true"></textarea>
+        </div>
+</script>
+
+<script type="text/ng-template" id="checkbox.html">
+
+        <label> Untitled  </label>
+        <div>
+            <input type="checkbox" disabled="true">
+        </div>
+
+</script>
+
+<script type="text/ng-template" id="datepicker.html">
+
+        <label> Untitled  </label>
+        <div>
+            <input type="text" id="datepicker" disabled="true">
+        </div>
+</script>
+
+
+
+
+<div ng-include="'input.html'"></div>
+<div ng-include="'textarea.html'"></div>
+
 <body ng-controller="IndexController">
+
+
 
 <form method="#" action="#">
     <div class="custom-form-builder">
@@ -27,7 +88,7 @@
 
 
         <h1> Here we have directive </h1>
-            <formfield data="data"> </formfield>
+            <formfield data="initialCi"> </formfield>
 
 
 
@@ -56,31 +117,20 @@
             </div>
             <div class="drop-zone">
                 <div>
+
+                    <li>
+
+                            <formfield ng-repeat="x in initialCi" data-type="{{x.field_type}}" > </formfield>
+
+
+                    </li>
+
+
+
+
+
                     <ul id="sortable" class="ui-sortable ui-dropable" >
-                        <li ng-repeat="x in initialCi"  ng-if="x.editable == true " data-ref="{{x.ref}}" >
-                            <div ng-if=" x.field_type == 'input' ">
-                                <label> {{ x.key }} </label>
-                                <input disabled ="true "type="text" width="{{x.width}}" >
-                            </div>
-                            <div ng-if=" x.field_type == 'textarea' ">
-                                <label>{{ x.key }}</label>
-                                <textarea disabled ="true "  width="{{x.width}}" height="{{x.heigth}}"> </textarea>
-                            </div>
-                            <div ng-if=" x.field_type == 'input-decimal' ">
-                                <label>{{ x.key }}</label>
-                                <input disabled ="true " type="number" step="any">
-                            </div>
-                            <div ng-if=" x.field_type == 'checkbox' ">
-                                <label>{{ x.key }}</label>
-                                <input disabled ="true " type="checkbox">
-                            </div>
-                            <div ng-if=" x.field_type == 'dropdown' ">
-                                <label>{{ x.key }}</label>
-                                <select  disabled="true">
-                                    <option ng-if=" y.is_default == true " ng-repeat="y in x.dropdown_choices" value="{{y.state_id}}"> {{ y.name }}</option>
-                                    <option ng-if=" y.is_default == false "  ng-repeat="y in x.dropdown_choices" value="{{y.state_id}}"> {{ y.name }}</option>
-                                </select>
-                            </div>
+                        <li ng-repeat="item in initialCi">
 
                         </li>
                     </ul>
