@@ -60,7 +60,7 @@ customForm.directive('formfield', ['$compile', '$templateCache', function($compi
 
             if(typeof scope.fieldData !== 'undefined' ){
 
-                console.log(scope.fieldData);
+                console.log(scope.fieldData.field_type);
             }
 
             scope.getTemplateUrl = function(type){

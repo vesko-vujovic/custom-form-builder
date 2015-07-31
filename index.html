@@ -105,7 +105,20 @@
 
                        {{initialCi}}
 
-                    <ul id="sortable" class="ui-sortable ui-dropable" >
+
+                    <div ng-repeat="group in initialCi">
+
+
+
+                        <ul ng-if="group.form">
+                            <li ng-repeat="item in group.form">
+                                <formfield field-data="item"> </formfield>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <ul ng-show="false" id="sortable" class="ui-sortable ui-dropable" >
                         <li ng-repeat="item in initialCi">
 
                             <formfield field-data="item.form"> </formfield>
