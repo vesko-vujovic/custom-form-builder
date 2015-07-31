@@ -44,10 +44,30 @@
           "ci_type_id": 12345,
           "status": -1,
           "editable": true
+        },
+        {
+          "id": 0,
+          "new":  0,
+          "ref":  1437985494559,
+          "key":  "Untitled",
+          "field_type": "tamo neki",
+          "index": "0",
+          "required": true,
+          "isCustom": 0,
+          "width": "",
+          "heigth": "",
+          "dropdown_choices": [{
+            "state_id":   2,
+            "name":       "first choice",
+            "deleted":    "false",
+            "is_default": "true"
+          }],
+          "ci_type_id": 12345,
+          "status": -1,
+          "editable": true
         }
       ]
     }
   ]
-
 
 }

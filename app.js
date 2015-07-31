@@ -47,16 +47,25 @@ customForm.service('getDataForCustomForm', function($http, $q){
 
 
 // Directive that will load dynamic templates based on field type
-customForm.directive('formfield', ['$compile','$templateCache', function($compile, $templateCache){
+customForm.directive('formfield', ['$compile', '$templateCache', function($compile, $templateCache){
 
     return {
         scope: {
             fieldData: '='
         },
         restrict: 'EA',
-        template: $templateCache.get('datepicker.html'),
+        template: '<ng-include src="' + 'getTemplateUrl()' +'"/>'
+         ,
         link: function(scope, element, attribute){
 
+            if(typeof scope.fieldData !== 'undefined' ){
+
+                console.log(scope.fieldData);
+            }
+
+            scope.getTemplateUrl = function(type){
+                return "input.html";
+            }
 
         }
     };
@@ -71,7 +80,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
     // @param initialCiData - json object
     $scope.initialCi = [];
     $scope.initialCiData    = getDataForCustomForm.getCiTypeData().then(function(data){
-        $scope.initialCi    = data.form;
+        $scope.initialCi    = data.groups;
     });
 
     // Temporary data storage for objects
@@ -81,7 +90,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
     $scope.$watchCollection("initialCi", function(newValue, oldValue){
 
         if($scope.initialCi.length !== 0 ){
-            $scope.tempStorageForObjects = $scope.initialCi;
+            $scope.tempStorageForObjects = $scope.initialCi.groups;
         }
     });
 
@@ -229,11 +238,11 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
 // Cache templates
 customForm.run(function($templateCache){
     $templateCache.put('input.html', '<label> Untitled <\/label> <div> <input type=\"text\" disabled=\"true\" > <\/div>');
-    $templateCache.put('input-number.html', '<label> Untitled <\/label> <div> <input type=\"number\" disabled=\"true\" > <\/div>');
+    /*$templateCache.put('input-number.html', '<label> Untitled <\/label> <div> <input type=\"number\" disabled=\"true\" > <\/div>');
     $templateCache.put('input-decimal.html', '<label> Untitled  <\/label> <div> <input type=\"Number\" disabled=\"true\" step=\"any\"> <\/div>');
     $templateCache.put('textarea.html', '<label> Untitled  <\/label> <div> <textarea disabled=\"true\"><\/textarea> <\/div>');
     $templateCache.put('checkbox.html', '<label> Untitled  <\/label> <div> <input type=\"checkbox\" disabled=\"true\"> <\/div>');
-    $templateCache.put('datepicker.html', '<label> Untitled  </label> <div> <input type="text" id="datepicker" disabled="true"> </div>');
+    $templateCache.put('datepicker.html', '<label> Untitled  </label> <div> <input type="text" id="datepicker" disabled="true"> </div>'); */
 });
 
 

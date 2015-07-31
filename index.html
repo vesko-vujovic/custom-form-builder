@@ -13,63 +13,50 @@
     <title>Custom property form builder</title>
 </head>
 
-<script type="text/ng-template" id="input.html">
-
-        <label> Untitled </label>
-        <div>
-            <input type="text" disabled="true" >
-        </div>
-
-</script>
 
 <script type="text/ng-template" id="input-number.html">
 
-        <label> Untitled </label>
-        <div>
-            <input type="number" disabled="true" >
-        </div>
+    <label> Untitled </label>
+    <div>
+        <input type="number" disabled="true" >
+    </div>
 
 </script>
 
 <script type="text/ng-template" id="input-decimal.html">
 
-        <label> Untitled  </label>
-        <div>
-            <input type="Number" disabled="true" step="any">
-        </div>
+    <label> Untitled  </label>
+    <div>
+        <input type="Number" disabled="true" step="any">
+    </div>
 
 </script>
 
 <script type="text/ng-template" id="textarea.html">
 
-        <label> Untitled  </label>
-        <div>
-           <textarea disabled="true"></textarea>
-        </div>
+    <label> Untitled  </label>
+    <div>
+        <textarea disabled="true"></textarea>
+    </div>
 </script>
 
 <script type="text/ng-template" id="checkbox.html">
 
-        <label> Untitled  </label>
-        <div>
-            <input type="checkbox" disabled="true">
-        </div>
+    <label> Untitled  </label>
+    <div>
+        <input type="checkbox" disabled="true">
+    </div>
 
 </script>
 
 <script type="text/ng-template" id="datepicker.html">
 
-        <label> Untitled  </label>
-        <div>
-            <input type="text" id="datepicker" disabled="true">
-        </div>
+    <label> Untitled  </label>
+    <div>
+        <input type="text" id="datepicker" disabled="true">
+    </div>
 </script>
 
-
-
-
-<div ng-include="'input.html'"></div>
-<div ng-include="'textarea.html'"></div>
 
 <body ng-controller="IndexController">
 
@@ -102,11 +89,7 @@
                 </div>
 
                 <div class="parent-info">
-                    <div ng-repeat="x in initialCi" ng-if="x.editable == false">
-                        <p> {{ x.title }} </p>
-                        <div> {{ x.info }} </div>
 
-                    </div>
 
                 </div>
 
@@ -115,23 +98,17 @@
                     <input type="submit" value="Save" name="save">
                 </div>
             </div>
+
+
             <div class="drop-zone">
                 <div>
 
-                    <li>
-
-                            <formfield ng-repeat="x in initialCi" data-type="{{x.field_type}}" > </formfield>
-
-
-                    </li>
-
-
-
-
+                       {{initialCi}}
 
                     <ul id="sortable" class="ui-sortable ui-dropable" >
                         <li ng-repeat="item in initialCi">
 
+                            <formfield field-data="item.form"> </formfield>
                         </li>
                     </ul>
                 </div>
