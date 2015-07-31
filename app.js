@@ -54,15 +54,10 @@ customForm.directive('formfield', ['$compile','$templateCache', function($compil
             fieldData: '='
         },
         restrict: 'EA',
-        template: $templateCache.get('input.html'),
+        template: $templateCache.get('datepicker.html'),
         link: function(scope, element, attribute){
 
 
-
-           /* var test = '<h1> radi {{name}} </h1>';
-            var test1 = $compile(test)(scope.data);
-
-             element.html(test1); */
         }
     };
 
@@ -231,9 +226,14 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
     $scope.startWidgets();
 }]);
 
-//Template cache
+// Cache templates
 customForm.run(function($templateCache){
-    $templateCache.put('input.html', '<li> <label> Untitled <\/label> <div> <input type=\"text\" disabled=\"true\" > <\/div> <\/li>');
+    $templateCache.put('input.html', '<label> Untitled <\/label> <div> <input type=\"text\" disabled=\"true\" > <\/div>');
+    $templateCache.put('input-number.html', '<label> Untitled <\/label> <div> <input type=\"number\" disabled=\"true\" > <\/div>');
+    $templateCache.put('input-decimal.html', '<label> Untitled  <\/label> <div> <input type=\"Number\" disabled=\"true\" step=\"any\"> <\/div>');
+    $templateCache.put('textarea.html', '<label> Untitled  <\/label> <div> <textarea disabled=\"true\"><\/textarea> <\/div>');
+    $templateCache.put('checkbox.html', '<label> Untitled  <\/label> <div> <input type=\"checkbox\" disabled=\"true\"> <\/div>');
+    $templateCache.put('datepicker.html', '<label> Untitled  </label> <div> <input type="text" id="datepicker" disabled="true"> </div>');
 });
 
 
