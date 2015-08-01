@@ -45,18 +45,53 @@ customForm.service('getDataForCustomForm', function($http, $q){
 });
 
 
+<<<<<<< HEAD
 // Our controller
 customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', function($scope, getDataForCustomForm){
+=======
+
+// Directive that will load dynamic templates based on field type
+customForm.directive('formfield', ['$compile', '$templateCache', function($compile, $templateCache){
+
+    return {
+        scope: {
+            fieldData: '='
+        },
+        restrict: 'EA',
+        template: '<ng-include src="' + 'getTemplateUrl()' +'"/>'
+         ,
+        link: function(scope, element, attribute){
+
+            if(typeof scope.fieldData !== 'undefined' ){
+
+                console.log(scope.fieldData.field_type);
+            }
+
+            scope.getTemplateUrl = function(type){
+                return "input.html";
+            }
+
+        }
+    };
+
+}]);
+
+
+
+// Define controller
+customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$templateCache', function($scope, getDataForCustomForm, $templateCache){
+>>>>>>> origin/master
 
     // @param initialCiData - json object
     $scope.initialCi = [];
     $scope.initialCiData    = getDataForCustomForm.getCiTypeData().then(function(data){
-        $scope.initialCi    = data.form;
+        $scope.initialCi    = data.groups;
     });
 
     // Temporary data storage for objects
     $scope.tempStorageForObjects = [];
 
+<<<<<<< HEAD
     // When initialCi is loaded with data asign that data to our temporary storage array
     $scope.$watchCollection("initialCi", function (newValue, oldValue) {
         if(newValue.length !== 0){
@@ -66,6 +101,15 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
 
 
+=======
+    // Watch when async call is finished, then asign that data to tempStorageForObjects
+    $scope.$watchCollection("initialCi", function(newValue, oldValue){
+
+        if($scope.initialCi.length !== 0 ){
+            $scope.tempStorageForObjects = $scope.initialCi.groups;
+        }
+    });
+>>>>>>> origin/master
 
     // Default sizes for elements
     $scope.defaultsForFields = {
@@ -101,10 +145,10 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
     // Initialize draggable widget - this function will be called from $scope.listDraggableFields();
     $scope.initializeDrag   = function() {
-        $(".drop li").draggable({
-            connectToSortable: "#sortable",
-            helper: "clone",
-            revert: "invalid",
+        $('.drop li').draggable({
+            connectToSortable: '#sortable',
+            helper: 'clone',
+            revert: 'invalid',
             start: function( event, ui ) {
 
             }
@@ -117,16 +161,47 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
             var typeOfField           = draggedElement.item.text();
             var currentElement        = draggedElement.item;
             var indexOfDraggedElement = draggedElement.item.index();
-
-        // Make object for this element and push it on array
-
+            console.log(indexOfDraggedElement);
+        //
         switch (typeOfField){
+<<<<<<< HEAD
             case "input":
 
                 // @param obj {object}
                 var obj = $scope.createObjectForElement(indexOfDraggedElement);
                 console.log(o);
                 $(currentElement).replaceWith("<li data-ref="+ o.ref + "> <input type='text'>  </li>")
+=======
+            case 'input':
+                // @param {object} - Create object for this dragged field
+                var obj = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
+                $(currentElement).replaceWith(
+                    '<li data-type="' + obj.field_type + '" data-ref="' + obj.ref + '">' +
+                    '<label>' + obj.key + '</label><input type="text" disabled=true>' +
+                    '</li>'
+                );
+                $scope.tempStorageForObjects.push(obj);
+                console.log(obj);
+                break;
+            case 'input-number':
+                var obj = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
+                $(currentElement).replaceWith(
+                    '<li data-type="' + obj.field_type + '" data-ref="' + obj.ref + '">' +
+                    '<label>' + obj.key + '</label><input type="number" disabled=true>' +
+                    '</li>'
+                );
+                $scope.tempStorageForObjects.push(obj);
+                break;
+            case 'input-decimal':
+                var obj = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
+                $(currentElement).replaceWith(
+                    '<li data-type="' + obj.field_type + '" data-ref="' + obj.ref + '">' +
+                    '<label>' + obj.key + '</label><input type="number" set="any" disabled=true>' +
+                    '</li>'
+                );
+                $scope.tempStorageForObjects.push(obj);
+                break;
+>>>>>>> origin/master
 
 
         }
@@ -138,15 +213,14 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     // Watch when $scope.pallete is loaded then render left side field types
     $scope.listDraggableFields = function(){
 
-        $scope.$watchCollection("pallete", function (newValue, oldValue) {
+        $scope.$watchCollection('pallete', function (newValue, oldValue) {
 
             if(newValue.length !== 0){
-                for(var i = 0; i < $scope.pallete.length; i++) {
-                    $(".drop").append("<li>" + $scope.pallete[i].type + "</li>");
+                for( var i = 0; i < $scope.pallete.length; i++) {
+                    $(".drop").append('<li>' + $scope.pallete[i].type + '</li>');
                 };
             }
-
-            // After changing the DOM initialize draggable UI  for that elements
+            // After changing the DOM initialize draggable JqueryUI
             $scope.initializeDrag();
         });
 
@@ -155,33 +229,73 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     };
 
     // Create object for new dragged element
-    $scope.createObjectForElement = function(index){
+    $scope.createObjectForElement = function(index, typeOfField){
 
+<<<<<<< HEAD
           var timeCreated =  Date.now();
           console.log($scope.tempStorageForObjects);
+=======
+          var timestamp       =  Date.now();
+          var dropdownOptions =  "";
+
+          // If typeOfField is dropdown, make initial data for that element
+          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false }] : dropdownOptions = [];
+
+>>>>>>> origin/master
           var obj = {
               "id": 0,
               "new": 1,
               "ref": timeCreated,
               "key": $scope.defaultsForFields.key,
+<<<<<<< HEAD
               "index": index,
               "required": false,
               "isCustomizable": true,
               "width": "150px",
               "heigth"
 
+=======
+              "field_type": typeOfField,
+              "index": index,
+              "required": true,
+              "isCustomizable": 1,
+              "width": "",
+              "height": "",
+              "dropdown_choices": dropdownOptions,
+              "ci_type_id": 1234,
+              "status": 0,
+              "editable": true
+>>>>>>> origin/master
           }
-
 
           return obj;
     };
 
-
-
     // Start the draggable and sortable widgets
     $scope.startWidgets();
-
-
-
-
 }]);
+
+// Cache templates
+customForm.run(function($templateCache){
+    $templateCache.put('input.html', '<label> Untitled <\/label> <div> <input type=\"text\" disabled=\"true\" > <\/div>');
+    /*$templateCache.put('input-number.html', '<label> Untitled <\/label> <div> <input type=\"number\" disabled=\"true\" > <\/div>');
+    $templateCache.put('input-decimal.html', '<label> Untitled  <\/label> <div> <input type=\"Number\" disabled=\"true\" step=\"any\"> <\/div>');
+    $templateCache.put('textarea.html', '<label> Untitled  <\/label> <div> <textarea disabled=\"true\"><\/textarea> <\/div>');
+    $templateCache.put('checkbox.html', '<label> Untitled  <\/label> <div> <input type=\"checkbox\" disabled=\"true\"> <\/div>');
+    $templateCache.put('datepicker.html', '<label> Untitled  </label> <div> <input type="text" id="datepicker" disabled="true"> </div>'); */
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

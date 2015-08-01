@@ -12,7 +12,55 @@
 
     <title>Custom property form builder</title>
 </head>
+
+
+<script type="text/ng-template" id="input-number.html">
+
+    <label> Untitled </label>
+    <div>
+        <input type="number" disabled="true" >
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="input-decimal.html">
+
+    <label> Untitled  </label>
+    <div>
+        <input type="Number" disabled="true" step="any">
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="textarea.html">
+
+    <label> Untitled  </label>
+    <div>
+        <textarea disabled="true"></textarea>
+    </div>
+</script>
+
+<script type="text/ng-template" id="checkbox.html">
+
+    <label> Untitled  </label>
+    <div>
+        <input type="checkbox" disabled="true">
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="datepicker.html">
+
+    <label> Untitled  </label>
+    <div>
+        <input type="text" id="datepicker" disabled="true">
+    </div>
+</script>
+
+
 <body ng-controller="IndexController">
+
+
 
 <form method="#" action="#">
     <div class="custom-form-builder">
@@ -26,7 +74,8 @@
             </div>
 
 
-
+        <h1> Here we have directive </h1>
+            <formfield data="initialCi"> </formfield>
 
 
 
@@ -40,11 +89,7 @@
                 </div>
 
                 <div class="parent-info">
-                    <div ng-repeat="x in initialCi" ng-if="x.editable == false">
-                        <p> {{ x.title }} </p>
-                        <div> {{ x.info }} </div>
 
-                    </div>
 
                 </div>
 
@@ -53,34 +98,30 @@
                     <input type="submit" value="Save" name="save">
                 </div>
             </div>
+
+
             <div class="drop-zone">
                 <div>
-                    <ul id="sortable" class="ui-sortable ui-dropable" >
-                        <li ng-repeat="x in initialCi"  ng-if="x.editable == true " data-ref="{{x.ref}}" >
-                            <div ng-if=" x.field_type == 'input' ">
-                                <label> {{ x.key }} </label>
-                                <input disabled ="true "type="text" width="{{x.width}}" >
-                            </div>
-                            <div ng-if=" x.field_type == 'textarea' ">
-                                <label>{{ x.key }}</label>
-                                <textarea disabled ="true "  width="{{x.width}}" height="{{x.heigth}}"> </textarea>
-                            </div>
-                            <div ng-if=" x.field_type == 'input-decimal' ">
-                                <label>{{ x.key }}</label>
-                                <input disabled ="true " type="number" step="any">
-                            </div>
-                            <div ng-if=" x.field_type == 'checkbox' ">
-                                <label>{{ x.key }}</label>
-                                <input disabled ="true " type="checkbox">
-                            </div>
-                            <div ng-if=" x.field_type == 'dropdown' ">
-                                <label>{{ x.key }}</label>
-                                <select  disabled="true">
-                                    <option ng-if=" y.is_default == true " ng-repeat="y in x.dropdown_choices" value="{{y.state_id}}"> {{ y.name }}</option>
-                                    <option ng-if=" y.is_default == false "  ng-repeat="y in x.dropdown_choices" value="{{y.state_id}}"> {{ y.name }}</option>
-                                </select>
-                            </div>
 
+                       {{initialCi}}
+
+
+                    <div ng-repeat="group in initialCi">
+
+
+
+                        <ul ng-if="group.form">
+                            <li ng-repeat="item in group.form">
+                                <formfield field-data="item"> </formfield>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <ul ng-show="false" id="sortable" class="ui-sortable ui-dropable" >
+                        <li ng-repeat="item in initialCi">
+
+                            <formfield field-data="item.form"> </formfield>
                         </li>
                     </ul>
                 </div>
