@@ -45,7 +45,7 @@ customForm.service('getDataForCustomForm', function($http, $q){
 });
 
 
-// Define controller
+// Our controller
 customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', function($scope, getDataForCustomForm){
 
     // @param initialCiData - json object
@@ -56,7 +56,16 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
     // Temporary data storage for objects
     $scope.tempStorageForObjects = [];
-    $scope.tempStorageForObjects  = $scope.initialCi;
+
+    // When initialCi is loaded with data asign that data to our temporary storage array
+    $scope.$watchCollection("initialCi", function (newValue, oldValue) {
+        if(newValue.length !== 0){
+            $scope.tempStorageForObjects  = $scope.initialCi;
+        }
+    });
+
+
+
 
     // Default sizes for elements
     $scope.defaultsForFields = {
@@ -113,12 +122,11 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
 
         switch (typeOfField){
             case "input":
-                // Create object for dragged element
-                var o = $scope.createObjectForElement(indexOfDraggedElement);
+
+                // @param obj {object}
+                var obj = $scope.createObjectForElement(indexOfDraggedElement);
                 console.log(o);
                 $(currentElement).replaceWith("<li data-ref="+ o.ref + "> <input type='text'>  </li>")
-
-
 
 
         }
@@ -149,14 +157,19 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', fun
     // Create object for new dragged element
     $scope.createObjectForElement = function(index){
 
-          var timestamp =  Date.now();
-
+          var timeCreated =  Date.now();
+          console.log($scope.tempStorageForObjects);
           var obj = {
               "id": 0,
-              "new": 0,
-              "ref": timestamp,
+              "new": 1,
+              "ref": timeCreated,
               "key": $scope.defaultsForFields.key,
-              "index": index
+              "index": index,
+              "required": false,
+              "isCustomizable": true,
+              "width": "150px",
+              "heigth"
+
           }
 
 
