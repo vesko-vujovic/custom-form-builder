@@ -5,6 +5,7 @@
     <script src="jquery.js"> </script>
     <script src="jquery-ui.js"></script>
     <script src="angular.js"></script>
+    <script src="angular-sortable.js"></script>
     <script src="app.js"></script>
     <link href="jquery-ui.css">
     <link href="jquery-ui.structure.css">
@@ -69,7 +70,9 @@
             <div class="info"> Drag and Drop any type of field into the Drag and Drop Zone </div>
             <div>
                   <ul class="drop">
-
+                        <li ng-repeat="field in pallete" on-finish-render >
+                            {{field.type}}
+                        </li>
                   </ul>
             </div>
 
@@ -106,13 +109,14 @@
                         <h3> {{ groups.name }} </h3>
                         <p> {{ groups.description}} </p>
 
-                        <ul id="sortable" class="ui-sortable">
-                            <li class="ui-state-default ui-sortable-handle" ng-repeat="item in groups.form" >
-                            <formfield field-data="item"> </formfield>
+                        <ul ui-sortable="sortableOptions" ng-model="groups.form" ng-if="groups.form" class="sortable">
+                            <li ng-repeat="item in groups.form">
+                                <formfield field-data="item"> </formfield>
                             </li>
                         </ul>
                     </li>
                 </ul>
+
 
 
             </div>
