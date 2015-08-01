@@ -73,12 +73,6 @@
                   </ul>
             </div>
 
-
-        <h1> Here we have directive </h1>
-            <formfield data="initialCi"> </formfield>
-
-
-
         </div>
 
         <div class="left-region">
@@ -104,27 +98,23 @@
                 <div>
 
                        {{initialCi}}
+                
+                </div>
 
+                <ul id="custom_ci_type_form">
+                    <li ng-repeat="groups in initialCi" on-finish-render> 
+                        <h3> {{ groups.name }} </h3>
+                        <p> {{ groups.description}} </p>
 
-                    <div ng-repeat="group in initialCi">
-
-
-
-                        <ul ng-if="group.form">
-                            <li ng-repeat="item in group.form">
-                                <formfield field-data="item"> </formfield>
+                        <ul id="sortable" class="ui-sortable">
+                            <li class="ui-state-default ui-sortable-handle" ng-repeat="item in groups.form" >
+                            <formfield field-data="item"> </formfield>
                             </li>
                         </ul>
+                    </li>
+                </ul>
 
-                    </div>
 
-                    <ul ng-show="false" id="sortable" class="ui-sortable ui-dropable" >
-                        <li ng-repeat="item in initialCi">
-
-                            <formfield field-data="item.form"> </formfield>
-                        </li>
-                    </ul>
-                </div>
             </div>
 
         </div>

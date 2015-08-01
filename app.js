@@ -45,10 +45,6 @@ customForm.service('getDataForCustomForm', function($http, $q){
 });
 
 
-<<<<<<< HEAD
-// Our controller
-customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', function($scope, getDataForCustomForm){
-=======
 
 // Directive that will load dynamic templates based on field type
 customForm.directive('formfield', ['$compile', '$templateCache', function($compile, $templateCache){
@@ -62,10 +58,9 @@ customForm.directive('formfield', ['$compile', '$templateCache', function($compi
          ,
         link: function(scope, element, attribute){
 
-            if(typeof scope.fieldData !== 'undefined' ){
-
-                console.log(scope.fieldData.field_type);
-            }
+        
+            console.log(scope.fieldData);
+        
 
             scope.getTemplateUrl = function(type){
                 return "input.html";
@@ -76,11 +71,25 @@ customForm.directive('formfield', ['$compile', '$templateCache', function($compi
 
 }]);
 
+// Directive to signalize when ng-repeat has finished with DOM rendering
+customForm.directive('onFinishRender', function ($timeout) {
+return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+        if (scope.$last === true) {
+            $timeout(function () {
+                scope.$emit('ngRepeatFinished');
+            });
+        }
+    }
+ }
+});
+
+
 
 
 // Define controller
 customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$templateCache', function($scope, getDataForCustomForm, $templateCache){
->>>>>>> origin/master
 
     // @param initialCiData - json object
     $scope.initialCi = [];
@@ -91,17 +100,6 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
     // Temporary data storage for objects
     $scope.tempStorageForObjects = [];
 
-<<<<<<< HEAD
-    // When initialCi is loaded with data asign that data to our temporary storage array
-    $scope.$watchCollection("initialCi", function (newValue, oldValue) {
-        if(newValue.length !== 0){
-            $scope.tempStorageForObjects  = $scope.initialCi;
-        }
-    });
-
-
-
-=======
     // Watch when async call is finished, then asign that data to tempStorageForObjects
     $scope.$watchCollection("initialCi", function(newValue, oldValue){
 
@@ -109,7 +107,6 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
             $scope.tempStorageForObjects = $scope.initialCi.groups;
         }
     });
->>>>>>> origin/master
 
     // Default sizes for elements
     $scope.defaultsForFields = {
@@ -130,6 +127,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
 
     // Initialize Jquery UI widgets on the page
     $scope.startWidgets    = function(){
+    
         $("#sortable").sortable({
             revert: true,
             update: function(event, ui){
@@ -164,14 +162,6 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
             console.log(indexOfDraggedElement);
         //
         switch (typeOfField){
-<<<<<<< HEAD
-            case "input":
-
-                // @param obj {object}
-                var obj = $scope.createObjectForElement(indexOfDraggedElement);
-                console.log(o);
-                $(currentElement).replaceWith("<li data-ref="+ o.ref + "> <input type='text'>  </li>")
-=======
             case 'input':
                 // @param {object} - Create object for this dragged field
                 var obj = $scope.createObjectForElement(indexOfDraggedElement, typeOfField);
@@ -201,7 +191,6 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
                 );
                 $scope.tempStorageForObjects.push(obj);
                 break;
->>>>>>> origin/master
 
 
         }
@@ -231,30 +220,17 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
     // Create object for new dragged element
     $scope.createObjectForElement = function(index, typeOfField){
 
-<<<<<<< HEAD
-          var timeCreated =  Date.now();
-          console.log($scope.tempStorageForObjects);
-=======
           var timestamp       =  Date.now();
           var dropdownOptions =  "";
 
           // If typeOfField is dropdown, make initial data for that element
           typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false }] : dropdownOptions = [];
 
->>>>>>> origin/master
           var obj = {
               "id": 0,
-              "new": 1,
-              "ref": timeCreated,
+              "new": 0,
+              "ref": timestamp,
               "key": $scope.defaultsForFields.key,
-<<<<<<< HEAD
-              "index": index,
-              "required": false,
-              "isCustomizable": true,
-              "width": "150px",
-              "heigth"
-
-=======
               "field_type": typeOfField,
               "index": index,
               "required": true,
@@ -265,14 +241,26 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
               "ci_type_id": 1234,
               "status": 0,
               "editable": true
->>>>>>> origin/master
           }
 
           return obj;
     };
 
-    // Start the draggable and sortable widgets
-    $scope.startWidgets();
+   
+
+    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+
+         // Start the draggable and sortable widgets when rendering finishes
+         $scope.startWidgets();
+    });
+
+
+
+
+
+
+
+
 }]);
 
 // Cache templates
