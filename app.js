@@ -2,7 +2,7 @@
  * Angular files for  custom-property builder
  */
 
-var customForm = angular.module('form-builder', ['ui.sortable']);
+var customForm = angular.module('form-builder', []);
 
 
 // Loads pallete of available fields, and html templates for that fields
@@ -57,11 +57,13 @@ customForm.directive('formfield', ['$compile', '$templateCache', function($compi
         template: '<ng-include src="' + 'getTemplateUrl()' +'"/>'
          ,
         link: function(scope, element, attribute){
-    
-            scope.getTemplateUrl = function(type){
-                return "input.html";
-            }
+            
+            console.log(scope.fieldData.field_type);
 
+            scope.getTemplateUrl = function() {
+                
+                return "input.html";
+            }    
         }
     };
 
@@ -101,11 +103,9 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
 
         if($scope.initialCi.length !== 0 ){
             $scope.tempStorageForObjects = $scope.initialCi.groups;
-            // Find ondex of object where we have form property
 
         }
     });
-
     // Default sizes for elements
     $scope.defaultsForFields = {
         "width":    "200px",
@@ -128,10 +128,10 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
 
           var timestamp       =  Date.now();
           var dropdownOptions =  "";
-          //console.log(index);
+        
 
           // If typeOfField is dropdown, make initial data for that element
-          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false }] : dropdownOptions = [];
+          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false } ] : dropdownOptions = [];
 
           var obj = {
               "id": 0,
@@ -155,9 +155,13 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
 
 
     $scope.sortableOptions = {
-        update: function(e, ui) {
+        update: function(event, ui) {
+        
 
-            console.log(ui);
+        },
+        receive( event, ui ){
+            //console.log(ui.item.index());
+
         }
     };
 
@@ -165,7 +169,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
 
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
        
-      /*  $(".sortable").sortable({
+       $(".sortable").sortable({
             revert: true,
             update: function(event, ui){
                var index        = ui.item.index();
@@ -174,7 +178,7 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
                console.log(typeOfField);
                
             }
-        });   */
+        });  
           
         $('.drop li').draggable({
             connectToSortable: '.sortable',
@@ -189,7 +193,31 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
          // Start the draggable and sortable widgets when rendering finishes
          //$scope.startWidgets();
     });
+    
+    // Edit fields   
+    $scope.edit               = function(index){
+        alert(index);
+    };
 
+    $scope.findFormProperty   = function() {
+
+        $scope.$watchCollection("initialCi", function(newValue, oldValue){
+
+            if(newValue.length !== 0 ) {
+                
+               for(var i = 0; i < $scope.initialCi.length; i++) {
+
+                    if($scope.initialCi[i].hasOwnProperty('form')) {
+                       
+                    };
+
+               }   
+            }
+        });
+        
+    };
+
+    console.log($scope.tempStorageForObjects);
 
 
 

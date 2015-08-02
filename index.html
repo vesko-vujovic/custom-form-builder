@@ -100,7 +100,7 @@
             <div class="drop-zone">
                 <div>
 
-                       {{initialCi}}
+                       {{initialCi  }} 
                 
                 </div>
 
@@ -109,8 +109,8 @@
                         <h3> {{ groups.name }} </h3>
                         <p> {{ groups.description}} </p>
 
-                        <ul ui-sortable="sortableOptions" ng-model="groups.form" ng-if="groups.form" class="sortable">
-                            <li ng-repeat="item in groups.form">
+                        <ul ng-if="groups.form" class="sortable">
+                            <li ng-click="edit($index)" ng-repeat="item in groups.form">
                                 <formfield field-data="item"> </formfield>
                             </li>
                         </ul>
