@@ -108,9 +108,7 @@
 
                     <div ng-repeat="group in initialCi">
 
-
-
-                        <ul ng-if="group.form">
+                        <ul id="sortable" class="ui-sortable ui-dropable" ng-if="group.form">
                             <li ng-repeat="item in group.form">
                                 <formfield field-data="item"> </formfield>
                             </li>
@@ -118,7 +116,7 @@
 
                     </div>
 
-                    <ul ng-show="false" id="sortable" class="ui-sortable ui-dropable" >
+                    <ul ng-show="false" id="sorta" class="ui-sortable ui-dropable" >
                         <li ng-repeat="item in initialCi">
 
                             <formfield field-data="item.form"> </formfield>
