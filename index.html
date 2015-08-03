@@ -5,6 +5,7 @@
     <script src="jquery.js"> </script>
     <script src="jquery-ui.js"></script>
     <script src="angular.js"></script>
+    <script src="angular-sortable.js"></script>
     <script src="app.js"></script>
     <link href="jquery-ui.css">
     <link href="jquery-ui.structure.css">
@@ -69,15 +70,11 @@
             <div class="info"> Drag and Drop any type of field into the Drag and Drop Zone </div>
             <div>
                   <ul class="drop">
-
+                        <li ng-repeat="field in pallete" on-finish-render >
+                            {{field.type}}
+                        </li>
                   </ul>
             </div>
-
-
-        <h1> Here we have directive </h1>
-            <formfield data="initialCi"> </formfield>
-
-
 
         </div>
 
@@ -103,6 +100,7 @@
             <div class="drop-zone">
                 <div>
 
+<<<<<<< HEAD
                        {{initialCi}}
 
 
@@ -110,19 +108,32 @@
 
                         <ul id="sortable" class="ui-sortable ui-dropable" ng-if="group.form">
                             <li ng-repeat="item in group.form">
+=======
+                       {{initialCi  }} 
+                
+                </div>
+
+                <ul id="custom_ci_type_form">
+                    <li ng-repeat="groups in initialCi" on-finish-render> 
+                        <h3> {{ groups.name }} </h3>
+                        <p> {{ groups.description}} </p>
+
+                        <ul ng-if="groups.form" class="sortable">
+                            <li ng-click="edit($index)" ng-repeat="item in groups.form">
+>>>>>>> 097ebd0c02ce5a759a15bb77a4e502adf45dd03e
                                 <formfield field-data="item"> </formfield>
                             </li>
                         </ul>
+                    </li>
+                </ul>
 
-                    </div>
 
+<<<<<<< HEAD
                     <ul ng-show="false" id="sorta" class="ui-sortable ui-dropable" >
                         <li ng-repeat="item in initialCi">
+=======
+>>>>>>> 097ebd0c02ce5a759a15bb77a4e502adf45dd03e
 
-                            <formfield field-data="item.form"> </formfield>
-                        </li>
-                    </ul>
-                </div>
             </div>
 
         </div>
