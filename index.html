@@ -100,15 +100,6 @@
             <div class="drop-zone">
                 <div>
 
-<<<<<<< HEAD
-                       {{initialCi}}
-
-
-                    <div ng-repeat="group in initialCi">
-
-                        <ul id="sortable" class="ui-sortable ui-dropable" ng-if="group.form">
-                            <li ng-repeat="item in group.form">
-=======
                        {{initialCi  }} 
                 
                 </div>
@@ -119,20 +110,12 @@
                         <p> {{ groups.description}} </p>
 
                         <ul ng-if="groups.form" class="sortable">
-                            <li ng-click="edit($index)" ng-repeat="item in groups.form">
->>>>>>> 097ebd0c02ce5a759a15bb77a4e502adf45dd03e
+                            <li data-index="{{ item.index}}" ng-click="edit($index)" ng-model="item" ng-repeat="item in groups.form">
                                 <formfield field-data="item"> </formfield>
                             </li>
                         </ul>
                     </li>
                 </ul>
-
-
-<<<<<<< HEAD
-                    <ul ng-show="false" id="sorta" class="ui-sortable ui-dropable" >
-                        <li ng-repeat="item in initialCi">
-=======
->>>>>>> 097ebd0c02ce5a759a15bb77a4e502adf45dd03e
 
             </div>
 

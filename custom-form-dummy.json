@@ -51,7 +51,7 @@
           "ref":  1437985494559,
           "key":  "Untitled",
           "field_type": "tamo neki",
-          "index": "0",
+          "index": 1,
           "required": true,
           "isCustom": 0,
           "width": "",

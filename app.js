@@ -4,7 +4,6 @@
 
 var customForm = angular.module('form-builder', []);
 
-
 // Loads pallete of available fields, and html templates for that fields
 customForm.service('getDataForCustomForm', function($http, $q){
 
@@ -41,6 +40,21 @@ customForm.service('getDataForCustomForm', function($http, $q){
         return deferred.promise;
     };
 
+    // Loop trough array of objects and find form property @param arrayOfObj {object}
+    this.findFormPropertyIndex = function(arrayOfObj){
+         var index = 0;
+
+         for(var i = 0; i < arrayOfObj.length; i++) {
+
+            if(arrayOfObj[i].hasOwnProperty('form')) {                            
+                  index = i;
+            };
+
+        }; 
+
+        return index; 
+    };
+
 
 });
 
@@ -58,8 +72,6 @@ customForm.directive('formfield', ['$compile', '$templateCache', function($compi
          ,
         link: function(scope, element, attribute){
             
-            console.log(scope.fieldData.field_type);
-
             scope.getTemplateUrl = function() {
                 
                 return "input.html";
@@ -84,16 +96,18 @@ return {
 });
 
 
-
-
 // Define controller
 customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$templateCache', function($scope, getDataForCustomForm, $templateCache){
 
     // @param initialCiData - json object
     $scope.initialCi = [];
-    $scope.initialCiData    = getDataForCustomForm.getCiTypeData().then(function(data){
+    $scope.initialCiData    = getDataForCustomForm.getCiTypeData().then(function(data) {
         $scope.initialCi    = data.groups;
+        $scope.formIndex    = getDataForCustomForm.findFormPropertyIndex($scope.initialCi);  
     });
+
+     //console.log($scope.formIndex);
+    
 
     // Temporary data storage for objects
     $scope.tempStorageForObjects = [];
@@ -106,6 +120,73 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
 
         }
     });
+
+    // When ng-repeat finish rendering 
+    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+       
+       // Initialize sortable
+       $(".sortable").sortable({
+            revert: true,
+            update: function(event, ui){
+              // Get index of current dragged element
+               var index        = ui.item.index();
+              // Get type of field 
+               var typeOfField  = $.trim(ui.item.text());
+              // Remove dragged element, because ng-repeat renders the view from model
+              ui.item.remove();
+
+              // Make object for dragged element, based on type of field
+              $scope.createObjectForElement(index, typeOfField);
+            }
+        });
+
+       // Initialize draggable  
+        $('.drop li').draggable({
+            connectToSortable: '.sortable',
+            helper: 'clone',
+            revert: 'invalid',
+        });
+    });
+
+    // Create object for new dragged element
+    $scope.createObjectForElement = function(index, typeOfField){        
+          var timestamp       =  Date.now();
+          var dropdownOptions =  "";       
+        
+          // If typeOfField is dropdown, make initial data for that element
+          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false } ] : dropdownOptions = [];
+
+          var obj = {
+              "id": 0,
+              "ref": timestamp,
+              "key": $scope.defaultsForFields.key,
+              "field_type": typeOfField,
+              "index": index,
+              "required": false,
+              "isCustomizable": 1,
+              "width": "",
+              "height": "",
+              "dropdown_choices": dropdownOptions,
+              "ci_type_id": 1234,
+              "status": 0,
+              "editable": true
+          }
+          // Push this object on specified place in model
+          $scope.pushObjectOnModel(obj, index);
+    };
+
+    // Push created object for new dragged field on model, so that ng-repeat can render the view
+    $scope.pushObjectOnModel = function(obj, index) {
+        $scope.initialCi[$scope.index].form.splice(index, 0, obj);
+        console.log($scope.initialCi[2].form);
+        $scope.$apply();
+        
+    }
+
+
+
+
+
     // Default sizes for elements
     $scope.defaultsForFields = {
         "width":    "200px",
@@ -122,82 +203,17 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
         $scope.templates  = data.templates;
     });
 
-    // Create object for new dragged element
-    $scope.createObjectForElement = function(index, typeOfField){
-          
-
-          var timestamp       =  Date.now();
-          var dropdownOptions =  "";
-        
-
-          // If typeOfField is dropdown, make initial data for that element
-          typeOfField == "dropdown" ? dropdownOptions = [{"state_id": 0, "name": "first_choice", "is_default": true, "deleted": false } ] : dropdownOptions = [];
-
-          var obj = {
-              "id": 0,
-              "new": 0,
-              "ref": timestamp,
-              "key": $scope.defaultsForFields.key,
-              "field_type": typeOfField,
-              "index": index,
-              "required": true,
-              "isCustomizable": 1,
-              "width": "",
-              "height": "",
-              "dropdown_choices": dropdownOptions,
-              "ci_type_id": 1234,
-              "status": 0,
-              "editable": true
-          }
-
-          return obj;
-    };
 
 
-    $scope.sortableOptions = {
-        update: function(event, ui) {
-        
-
-        },
-        receive( event, ui ){
-            //console.log(ui.item.index());
-
-        }
-    };
-
-   
-
-    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-       
-       $(".sortable").sortable({
-            revert: true,
-            update: function(event, ui){
-               var index        = ui.item.index();
-               var typeOfField  = ui.item.text();
-               $scope.createObjectForElement(index, typeOfField);
-               console.log(typeOfField);
-               
-            }
-        });  
-          
-        $('.drop li').draggable({
-            connectToSortable: '.sortable',
-            helper: 'clone',
-            revert: 'invalid',
-            start: function( event, ui ) {
-
-            }
-        });
-
-       
-         // Start the draggable and sortable widgets when rendering finishes
-         //$scope.startWidgets();
-    });
     
     // Edit fields   
     $scope.edit               = function(index){
-        alert(index);
+        console.log(index);
     };
+
+
+
+    $scope.index = null;
 
     $scope.findFormProperty   = function() {
 
@@ -208,28 +224,23 @@ customForm.controller('IndexController',  ['$scope', 'getDataForCustomForm', '$t
                for(var i = 0; i < $scope.initialCi.length; i++) {
 
                     if($scope.initialCi[i].hasOwnProperty('form')) {
-                       
-                    };
-
+                       $scope.index = i;
+                    }
                }   
             }
         });
         
     };
 
-    console.log($scope.tempStorageForObjects);
-
-
-
-
+    $scope.findFormProperty();
 
 
 
 }]);
 
 // Cache templates
-customForm.run(function($templateCache){
-    $templateCache.put('input.html', '<label> Untitled {{ fieldData.field_type }} <\/label> <div> <input type=\"text\" disabled=\"true\" > <\/div>');
+customForm.run(function($templateCache) {
+    $templateCache.put('input.html', '<label> {{ fieldData.field_type }} <\/label> <div> <input type=\"text\" disabled=\"true\" > <\/div>');
     /*$templateCache.put('input-number.html', '<label> Untitled <\/label> <div> <input type=\"number\" disabled=\"true\" > <\/div>');
     $templateCache.put('input-decimal.html', '<label> Untitled  <\/label> <div> <input type=\"Number\" disabled=\"true\" step=\"any\"> <\/div>');
     $templateCache.put('textarea.html', '<label> Untitled  <\/label> <div> <textarea disabled=\"true\"><\/textarea> <\/div>');
